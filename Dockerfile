@@ -1,19 +1,17 @@
-# Usa a imagem oficial do Nginx como base
+# Usa a imagem leve do Nginx
 FROM nginx:stable-alpine
 
-# Remove a configuração padrão do Nginx
+# Remove configurações padrão do Nginx
 RUN rm -rf /etc/nginx/conf.d/*
 
-# Copia os arquivos de build do seu projeto para o diretório de serviço do Nginx
-# Certifique-se de que o caminho /home/ubuntu/site_casa_caramelo/dist corresponde ao seu diretório de build
+# Copia todos os arquivos da pasta atual (dist) para o diretório padrão do Nginx
 COPY . /usr/share/nginx/html
 
-# Copia a configuração personalizada do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copia o arquivo de configuração customizado do Nginx (um nível acima)
+COPY ../nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expõe a porta 80 para acesso via HTTP
+# Expõe a porta padrão do Nginx
 EXPOSE 80
 
-# Inicia o Nginx em primeiro plano
+# Inicia o Nginx
 CMD ["nginx", "-g", "daemon off;"]
-
